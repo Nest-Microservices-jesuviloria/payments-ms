@@ -36,18 +36,15 @@ export class PaymentsService implements OnModuleInit {
       },
       line_items: lineItems,
       mode: 'payment',
-      success_url: `http://localhost:3003/payments/success`,
-      cancel_url: `http://localhost:3003/payments/cancel`,
+      success_url: envs.stripeSuccessUrl,
+      cancel_url: envs.stripeCancelUrl,
     });
 
     return session;
   }
 
   async stripeWebhook(req: Request, res: Response) {
-    /* const endpointSecret =
-      'whsec_861478bc568c3645905ee3c87176d4303d8cf418e12ff46241015b0a9b707ea0'; */
-
-    const endpointSecret = 'whsec_xXeNnawVOISmCtTLoj0Xvp4QdU26jG7y';
+    const endpointSecret = envs.stripeEndpointSecret;
 
     const sig = req.headers['stripe-signature'];
 
