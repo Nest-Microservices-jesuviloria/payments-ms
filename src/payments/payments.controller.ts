@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   Get,
   Logger,
@@ -11,6 +10,7 @@ import {
 import { PaymentsService } from './payments.service';
 import { PaymentsSessionDto } from './dto/payment-session.dto';
 import { Request, Response } from 'express';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('payments')
 export class PaymentsController implements OnModuleInit {
@@ -20,8 +20,9 @@ export class PaymentsController implements OnModuleInit {
     logger.log('PaymentsController initialized');
   }
 
-  @Post('create-payment-session')
-  createPaymentSessions(@Body() paymentsSessionDto: PaymentsSessionDto) {
+  //@Post('create-payment-session')
+  @MessagePattern('create.payment.session')
+  createPaymentSessions(@Payload() paymentsSessionDto: PaymentsSessionDto) {
     return this.paymentsService.createPaymentSession(paymentsSessionDto);
   }
 
